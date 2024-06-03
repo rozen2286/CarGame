@@ -33,9 +33,10 @@ public class LoginScreen extends JPanel {
     public LoginScreen(int x, int y) {
         this.setBounds(x, y, WIDTH, HEIGHT);
 
-        this.BACKGROUND_IMAGE = new ImageIcon("resources/Photos/One-sidedLoginImage.jpg");
+        this.BACKGROUND_IMAGE = new ImageIcon("Car Game/resources/Photos/One-sidedLoginImage.jpg");
 
         createTitleLabels();
+
 
         startButton = RoundedCornerButton.myButton(WIDTH / 2 - WIDTH_START_BUTTON / 2, title_y,
                 WIDTH_START_BUTTON, HEIGHT_START_BUTTON, START_TEXT, COLOR_BUTTON, this);

@@ -16,7 +16,7 @@ public class PoetsenOneFont {
     public static void loadFont() {
         try {
             // טוען את הגופן מקובץ TTF שחולץ מהתיקייה הדחוסה
-            brushFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Font/PoetsenOne-Regular.ttf"));
+            brushFont = Font.createFont(Font.TRUETYPE_FONT, new File("Car Game/resources/Font/PoetsenOne-Regular.ttf"));
             // רישום הגופן בסביבת הגרפיקה המקומית
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(brushFont);
