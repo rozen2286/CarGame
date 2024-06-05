@@ -1,5 +1,8 @@
 import javax.swing.*;
 
+/**
+ * מחלקה זו מייצגת חלון גרפי עיקרי של התוכנית.
+ */
 public class Window extends JFrame {
 
     private static Window window;
@@ -7,6 +10,9 @@ public class Window extends JFrame {
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
 
+    /**
+     * יוצר אובייקט חדש של Window, מגדיר את גודל החלון ואת ההתנהגות הבסיסית שלו.
+     */
     public Window() {
         Window.window = this;
 
@@ -25,6 +31,11 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * מוסיף פאנל חדש בראש החלון.
+     *
+     * @param newPanel הפאנל החדש להוספה
+     */
     public static void addPanelOnTop(JPanel newPanel) {
         window.layeredPane.add(newPanel, JLayeredPane.PALETTE_LAYER);
         window.revalidate();
@@ -32,6 +43,11 @@ public class Window extends JFrame {
         newPanel.setVisible(true);
     }
 
+    /**
+     * מסיר את הפאנל העליון מהחלון.
+     *
+     * @param panelToRemove הפאנל להסרה
+     */
     public static void removeTopPanel(JPanel panelToRemove) {
         window.layeredPane.remove(panelToRemove);
         window.revalidate();

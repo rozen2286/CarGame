@@ -1,31 +1,40 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static Utilities.CalculusMethods.*;
 import static Utilities.CalculusMethods.delta;
 
+/**
+ * מחלקה זו משמשת לצביעה של מרובע עם מעברי צבעים.
+ */
 public class QuadrilateralPainter {
 
-    private int deltaSteps;
-
-    private Color color1;
-
-    private Color color2;
+    private Point[] points;
     private ArrayList<Double> leftShoulderX;
     private ArrayList<Double> leftShoulderY;
     private ArrayList<Double> rightShoulderX;
     private ArrayList<Double> rightShoulderY;
 
-    public QuadrilateralPainter(int[] xPoints, int[] yPoints, int deltaSteps, Color c1, Color c2) {
+    private int deltaSteps;
 
-        if (xPoints.length != yPoints.length) {
-            throw new IllegalArgumentException("The length of xPoints and yPoints must be the same");
-        }
+    private Color color1;
+    private Color color2;
 
-        if (xPoints.length != 4) {
+    /**
+     * יוצר אובייקט חדש של QuadrilateralPainter עם נקודות, מספר צעדים ושני צבעים.
+     *
+     * @param points    מערך של ארבע נקודות שמגדירות את המרובע
+     * @param deltaSteps מספר הצעדים למעבר בין הצבעים
+     * @param c1        הצבע הראשון למעבר
+     * @param c2        הצבע השני למעבר
+     */
+    public QuadrilateralPainter(Point[] points, int deltaSteps, Color c1, Color c2) {
+        if (points.length != 4) {
             throw new IllegalArgumentException("The length of xPoints and yPoints must be 4");
         }
 
+        this.points = points;
         this.deltaSteps = deltaSteps;
 
         this.leftShoulderX = new ArrayList<>();
@@ -36,35 +45,72 @@ public class QuadrilateralPainter {
         this.color1 = c1;
         this.color2 = c2;
 
-        calculateShoulderPoints(xPoints[0], yPoints[0], xPoints[2], yPoints[2], leftShoulderX, leftShoulderY);
-        calculateShoulderPoints(xPoints[1], yPoints[1], xPoints[3], yPoints[3], rightShoulderX, rightShoulderY);
+        calculateShoulderPoints(this.points[0], this.points[2], leftShoulderX, leftShoulderY);
+        calculateShoulderPoints(this.points[1], this.points[3], rightShoulderX, rightShoulderY);
     }
 
-    public QuadrilateralPainter(int[] xPoints, int[] yPoints, int deltaSteps) {
-        this(xPoints, yPoints, deltaSteps, Color.BLACK, Color.BLACK);
+    /**
+     * יוצר אובייקט חדש של QuadrilateralPainter עם נקודות ומספר צעדים, כשהצבעים הם שחור.
+     *
+     * @param points    מערך של ארבע נקודות שמגדירות את המרובע
+     * @param deltaSteps מספר הצעדים למעבר בין הצבעים
+     */
+    public QuadrilateralPainter(Point[] points, int deltaSteps) {
+        this(points, deltaSteps, Color.BLACK, Color.BLACK);
     }
 
+    @Override
+    public String toString() {
+        return "QuadrilateralPainter{" +
+                "points=" + Arrays.toString(points) +
+                ", leftShoulderX=" + Arrays.toString(leftShoulderX.toArray()) +
+                ", leftShoulderY=" + Arrays.toString(leftShoulderY.toArray()) +
+                ", rightShoulderX=" + Arrays.toString(rightShoulderX.toArray()) +
+                ", rightShoulderY=" + Arrays.toString(rightShoulderY.toArray()) +
+                ", deltaSteps=" + deltaSteps +
+                ", color1=" + color1 +
+                ", color2=" + color2 +
+                '}';
+    }
+
+    /**
+     * צובע את המרובע.
+     *
+     * @param g אובייקט ה-Graphics המשמש לציור
+     */
     protected void paint(Graphics g) {
         drawShoulders(g);
     }
 
-    private void calculateShoulderPoints(int x1, int y1, int x2, int y2, ArrayList<Double> arrayListX, ArrayList<Double> arrayListY) {
+    /**
+     * מחשבת את הנקודות על המקטעים ומוסיפה אותן לרשימות.
+     *
+     * @param point1    הנקודה הראשונה במקטע
+     * @param point2    הנקודה השנייה במקטע
+     * @param arrayListX רשימת ערכי ה-X של הנקודות
+     * @param arrayListY רשימת ערכי ה-Y של הנקודות
+     */
+    private void calculateShoulderPoints(Point point1, Point point2, ArrayList<Double> arrayListX, ArrayList<Double> arrayListY) {
+        double m = calculateSlope(point1.getX(), point1.getY(), point2.getX(), point2.getY());
+        double b = calculateIntercept(point1.getX(), point1.getY(), m);
 
-        double m = calculateSlope(x1, y1, x2, y2);
-        double b = calculateIntercept(x1, y1, m);
-
-        double deltaX = delta(x1, x2, this.deltaSteps);
-        double deltaY = delta(y1, y2, this.deltaSteps);
+        double deltaX = delta(point1.getX(), point2.getX(), this.deltaSteps);
+        double deltaY = delta(point1.getY(), point2.getY(), this.deltaSteps);
 
         for (int i = 0; i <= this.deltaSteps; i++) {
-            double xi = x1 + i * deltaX;
-            double yi = y1 + i * deltaY;
+            double xi = point1.getX() + i * deltaX;
+            double yi = point1.getY() + i * deltaY;
 
             arrayListX.add(xi);
             arrayListY.add(yi);
         }
     }
 
+    /**
+     * מצייר את המקטעים (Shoulders) של המרובע.
+     *
+     * @param g אובייקט ה-Graphics המשמש לציור
+     */
     private void drawShoulders(Graphics g) {
         for (int i = 0; i < leftShoulderX.size() - 1; i++) {
             int[] xRect = {
@@ -81,12 +127,21 @@ public class QuadrilateralPainter {
             };
 
             if (i % 2 == 0) {
-                g.setColor(this.color1);
-            } else {
                 g.setColor(this.color2);
+            } else {
+                g.setColor(this.color1);
             }
 
             g.fillPolygon(xRect, yRect, 4);
         }
+    }
+
+    /**
+     * מחזיר את מערך הנקודות של המרובע.
+     *
+     * @return מערך הנקודות של המרובע
+     */
+    public Point[] getPoints() {
+        return points;
     }
 }

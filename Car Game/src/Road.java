@@ -1,5 +1,5 @@
 import java.awt.*;
-import java.util.Arrays;
+import java.util.LinkedList;
 
 public class Road {
 
@@ -9,93 +9,106 @@ public class Road {
     private final ShapeDrawer road;
     private final ShapeDrawer leftLine;
     private final ShapeDrawer rightLine;
+    private final ShapeDrawer leftCenterLine;
+    private final ShapeDrawer rightCenterLine;
+
+    private static final int deltaSteps = 20;
 
     private final QuadrilateralPainter leftLineColor;
     private final QuadrilateralPainter rightLineColor;
-    private final Color sideLinePrimaryColor = Color.RED;
-    private final Color sideLineSecondaryColor = Color.WHITE;
+    private final QuadrilateralPainter leftCenterLineColor;
+    private final QuadrilateralPainter rightCenterLineColor;
+    private static final Color sideLinePrimaryColor = Color.RED;
+    private static final Color sideLineSecondaryColor = Color.WHITE;
+    private static final Color centerlineMainColor = Color.WHITE;
+    private static final Color secondaryColorMidline = new Color(51, 51, 51);
 
-    private final int horizonY;
-    private final int roadWidth;
-
-    private final int leftStartX;
-    private final int leftEndX;
-    private final int leftMidX1;
-    private final int leftMidX2;
-
-    private final int rightStartX;
-    private final int rightEndX;
-    private final int rightMidX1;
-    private final int rightMidX2;
-
-    private final int bottomY;
-    private final int topY;
-
-
-    QuadrilateralPainter quadrilateralPainter;
-    QuadrilateralPainter quadrilateralPainter1;
-
+    /**
+     * יוצר כביש חדש על פי רוחב וגובה הפאנל הנתונים.
+     *
+     * @param panelWidth  רוחב הפאנל
+     * @param panelHeight גובה הפאנל
+     */
     public Road(int panelWidth, int panelHeight) {
         this.panelWidth = panelWidth;
         this.panelHeight = panelHeight;
 
-        this.horizonY = panelHeight / 6;
-        this.roadWidth = (int) (panelWidth * 1.5);
+        int horizonY = panelHeight / 6;
+        int roadWidth = (int) (panelWidth * 1.5);
 
-        this.leftStartX = panelWidth / 2 - roadWidth / 2;
-        this.leftEndX = panelWidth / 2 - 50;
-        this.leftMidX1 = leftEndX;
-        this.leftMidX2 = leftStartX - 80;
+        int leftStartX = panelWidth / 2 - roadWidth / 2;
+        int leftEndX = panelWidth / 2 - 50;
+        int leftMidX1 = leftEndX;
+        int leftMidX2 = leftStartX - 80;
 
-        this.rightStartX = panelWidth / 2 + roadWidth / 2;
-        this.rightEndX = panelWidth / 2 + 50;
-        this.rightMidX1 = rightEndX;
-        this.rightMidX2 = rightStartX + 80;
+        int rightStartX = panelWidth / 2 + roadWidth / 2;
+        int rightEndX = panelWidth / 2 + 50;
+        int rightMidX1 = rightEndX;
+        int rightMidX2 = rightStartX + 80;
 
-        this.bottomY = panelHeight;
-        this.topY = horizonY;
+        int startXCenter = (rightEndX - leftEndX) / 3;
 
-        int[] roadXPoints = {leftStartX, rightStartX, panelWidth / 2 + 50, panelWidth / 2 - 50};
-        int[] roadYPoints = {panelHeight, panelHeight, horizonY, horizonY};
-        this.road = new ShapeDrawer(roadXPoints, roadYPoints);
+        int bottomY = panelHeight;
+        int topY = horizonY;
 
-        int[] leftXPoints = {leftStartX, leftEndX, leftMidX1, leftMidX2};
-        int[] leftYPoints = {bottomY, topY, topY, bottomY};
-        this.leftLine = new ShapeDrawer(leftXPoints, leftYPoints);
+        // יצירת רשימת נקודות עבור הכביש
+        LinkedList<Point> pointsRoad = new LinkedList<>();
+        pointsRoad.add(new Point(leftStartX, bottomY));
+        pointsRoad.add(new Point(rightStartX, bottomY));
+        pointsRoad.add(new Point(panelWidth / 2 + 50, topY));
+        pointsRoad.add(new Point(panelWidth / 2 - 50, topY));
+        this.road = new ShapeDrawer(pointsRoad.toArray(new Point[0]));
 
-        System.out.println(Arrays.toString(leftXPoints));
-        System.out.println(Arrays.toString(leftYPoints));
+        // יצירת רשימת נקודות עבור קו שמאלי
+        LinkedList<Point> pointsLeftLine = new LinkedList<>();
+        pointsLeftLine.add(new Point(leftStartX, bottomY));
+        pointsLeftLine.add(new Point(leftEndX, topY));
+        pointsLeftLine.add(new Point(leftMidX1, topY));
+        pointsLeftLine.add(new Point(leftMidX2, bottomY));
+        this.leftLine = new ShapeDrawer(pointsLeftLine.toArray(new Point[0]));
+        leftLineColor = new QuadrilateralPainter(leftLine.getPoints(), deltaSteps, sideLinePrimaryColor, sideLineSecondaryColor);
 
-        int[] rightXPoints = {rightStartX, rightEndX, rightMidX1, rightMidX2};
-        int[] rightYPoints = {bottomY, topY, topY, bottomY};
-        this.rightLine = new ShapeDrawer(rightXPoints, rightYPoints);
+        // יצירת רשימת נקודות עבור קו ימני
+        LinkedList<Point> pointsRightLine = new LinkedList<>();
+        pointsRightLine.add(new Point(rightStartX, bottomY));
+        pointsRightLine.add(new Point(rightEndX, topY));
+        pointsRightLine.add(new Point(rightMidX1, topY));
+        pointsRightLine.add(new Point(rightMidX2, bottomY));
+        this.rightLine = new ShapeDrawer(pointsRightLine.toArray(new Point[0]));
+        rightLineColor = new QuadrilateralPainter(rightLine.getPoints(), deltaSteps, sideLinePrimaryColor, sideLineSecondaryColor);
 
-        int[] centerLine1XPoints = {250 ,483, 483, 300};
-        int[] centerLine1YPoints = {800, 133, 133, 800};
-        ShapeDrawer shapeDrawer = new ShapeDrawer(centerLine1XPoints, centerLine1YPoints);
-        quadrilateralPainter = new QuadrilateralPainter(shapeDrawer.getXPoints(), shapeDrawer.getYPoints(),10, Color.BLACK , Color.WHITE);
+        // יצירת רשימת נקודות עבור קו מרכזי שמאלי
+        LinkedList<Point> pointsLeftCenterLine = new LinkedList<>();
+        pointsLeftCenterLine.add(new Point(panelWidth / 4, bottomY));
+        pointsLeftCenterLine.add(new Point(startXCenter + leftEndX, topY));
+        pointsLeftCenterLine.add(new Point(startXCenter - 2 + leftEndX, topY));
+        pointsLeftCenterLine.add(new Point(panelWidth / 4 + 50, bottomY));
+        this.leftCenterLine = new ShapeDrawer(pointsLeftCenterLine.toArray(new Point[0]));
+        leftCenterLineColor = new QuadrilateralPainter(leftCenterLine.getPoints(), deltaSteps, centerlineMainColor, secondaryColorMidline);
 
-        int[] centerLine1XPoints1 = {750 ,516, 516, 800};
-        int[] centerLine1YPoints1 = {800, 133, 133, 800};
-        ShapeDrawer shapeDrawer1 = new ShapeDrawer(centerLine1XPoints1, centerLine1YPoints1);
-        quadrilateralPainter1 = new QuadrilateralPainter(shapeDrawer1.getXPoints(), shapeDrawer1.getYPoints(),10, Color.BLACK , Color.WHITE);
-
-        leftLineColor = new QuadrilateralPainter(leftLine.getXPoints(), leftLine.getYPoints(), 10, sideLinePrimaryColor, sideLineSecondaryColor);
-        rightLineColor = new QuadrilateralPainter(rightLine.getXPoints(), rightLine.getYPoints(), 10, sideLinePrimaryColor, sideLineSecondaryColor);
-
+        // יצירת רשימת נקודות עבור קו מרכזי ימני
+        LinkedList<Point> pointsRightCenterLine = new LinkedList<>();
+        pointsRightCenterLine.add(new Point(panelWidth * 3 / 4, bottomY));
+        pointsRightCenterLine.add(new Point(startXCenter * 2 + leftEndX, topY));
+        pointsRightCenterLine.add(new Point(startXCenter * 2 + 2 + leftEndX, topY));
+        pointsRightCenterLine.add(new Point(panelWidth * 3 / 4 - 50, bottomY));
+        this.rightCenterLine = new ShapeDrawer(pointsRightCenterLine.toArray(new Point[0]));
+        rightCenterLineColor = new QuadrilateralPainter(rightCenterLine.getPoints(), 20, centerlineMainColor, secondaryColorMidline);
     }
 
+    /**
+     * מצייר את כל רכיבי הכביש על המסך.
+     *
+     * @param g אובייקט ה-Graphics המשמש לציור
+     */
     public void drawShape(Graphics g) {
-        g.setColor(Color.BLACK);
-
         this.road.drawShape(g);
         this.leftLine.drawShape(g);
         this.rightLine.drawShape(g);
 
         leftLineColor.paint(g);
         rightLineColor.paint(g);
-
-        quadrilateralPainter.paint(g);
-        quadrilateralPainter1.paint(g);
+        leftCenterLineColor.paint(g);
+        rightCenterLineColor.paint(g);
     }
 }
