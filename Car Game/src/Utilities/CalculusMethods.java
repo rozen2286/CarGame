@@ -50,4 +50,32 @@ public class CalculusMethods {
         }
         return (double) (end - start) / steps;
     }
+
+    /**
+     * מחשבת את ערך ה-x על פי ערך y, שיפוע הקו וחיתוך הציר y.
+     *
+     * @param y ערך ה-y.
+     * @param m השיפוע של הקו.
+     * @param b חיתוך הציר y של הקו.
+     * @return ערך ה-x המתאים לערך ה-y לפי הקו הישר.
+     * @throws IllegalArgumentException אם השיפוע הוא אפס, כדי למנוע חלוקה באפס.
+     */
+    public static double calculateX(double y, double m, double b) {
+        if (m == 0) {
+            throw new IllegalArgumentException("The slope must not be zero to avoid division by zero.");
+        }
+        return (y - b) / m;
+    }
+
+    /**
+     * מחשבת את ערך ה-y לפי ערך ה-x, שיפוע הקו וחיתוך הציר y.
+     *
+     * @param x ערך ה-x.
+     * @param m השיפוע של הקו.
+     * @param b חיתוך הציר y של הקו.
+     * @return ערך ה-y המתאים לערך ה-x לפי הקו הישר.
+     */
+    public static double calculateY(double x, double m, double b) {
+        return x * m + b;
+    }
 }

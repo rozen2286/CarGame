@@ -72,6 +72,14 @@ public class QuadrilateralPainter {
                 ", color2=" + color2 +
                 '}';
     }
+    /**
+     * מחזיר את מערך הנקודות של המרובע.
+     *
+     * @return מערך הנקודות של המרובע
+     */
+    public Point[] getPoints() {
+        return points;
+    }
 
     /**
      * צובע את המרובע.
@@ -136,12 +144,7 @@ public class QuadrilateralPainter {
         }
     }
 
-    /**
-     * מחזיר את מערך הנקודות של המרובע.
-     *
-     * @return מערך הנקודות של המרובע
-     */
-    public Point[] getPoints() {
-        return points;
+    private void moveDawn() {
+
     }
 }
