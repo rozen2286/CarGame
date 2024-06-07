@@ -94,7 +94,7 @@ public class Road {
         pointsRightCenterLine.add(new Point(startXCenter * 2 + 2 + leftEndX, topY));
         pointsRightCenterLine.add(new Point(panelWidth * 3 / 4 - 50, bottomY));
         this.rightCenterLine = new ShapeDrawer(pointsRightCenterLine.toArray(new Point[0]));
-        rightCenterLineColor = new QuadrilateralPainter(rightCenterLine.getPoints(), 20, centerlineMainColor, secondaryColorMidline);
+        rightCenterLineColor = new QuadrilateralPainter(rightCenterLine.getPoints(), deltaSteps, centerlineMainColor, secondaryColorMidline);
     }
 
     /**
@@ -107,9 +107,16 @@ public class Road {
         this.leftLine.drawShape(g);
         this.rightLine.drawShape(g);
 
-        leftLineColor.paint(g);
-        rightLineColor.paint(g);
-        leftCenterLineColor.paint(g);
-        rightCenterLineColor.paint(g);
+        this.leftLineColor.paint(g);
+        this.rightLineColor.paint(g);
+        this.leftCenterLineColor.paint(g);
+        this.rightCenterLineColor.paint(g);
+    }
+
+    public void moveDown() {
+        this.leftLineColor.moveDown();
+        this.rightLineColor.moveDown();
+        this.leftCenterLineColor.moveDown();
+        this.rightCenterLineColor.moveDown();
     }
 }

@@ -1,4 +1,14 @@
+/**
+ * מחלקה זו מייצגת את הסצנה הראשית של המשחק. היא מרחיבה את JPanel ואחראית על הצגת הסצנה של המשחק,
+ * כולל הרקע והכביש. הכביש נע כלפי מטה בצורה רציפה כדי ליצור אפקט אנימציה.
+ *
+ * - הסצנה מאותחלת עם מיקום נתון.
+ * - הכביש מצויר ומונפש לנוע כלפי מטה.
+ * - הרקע נצבע בצבע אפור.
+ * - חוט (Thread) משמש להנעת הכביש בצורה רציפה ולעדכון הציור של הסצנה.
+ */
 import Utilities.GraphicsUtils;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -22,6 +32,8 @@ public class Scene extends JPanel {
         setBounds(x, y, WIDTH, HEIGHT);
 
         road = new Road(WIDTH, HEIGHT);
+        Thread moveRoad = moveRoad();
+        moveRoad.start();
     }
 
     /**
@@ -38,5 +50,25 @@ public class Scene extends JPanel {
 
         // ציור הכביש
         road.drawShape(g);
+    }
+
+    /**
+     * יוצר ומחזיר חוט (Thread) המניע את הכביש כלפי מטה כל הזמן ומרענן את הציור.
+     *
+     * @return Thread חוט המניע את הכביש ומרענן את הציור
+     */
+    private Thread moveRoad() {
+        Thread thread = new Thread(() -> {
+            while (true) {
+                this.road.moveDown();
+                repaint();
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return thread;
     }
 }
