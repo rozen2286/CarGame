@@ -19,8 +19,7 @@ public class Scene extends JPanel {
 
     public static final int WIDTH = Window.WIDTH;
     public static final int HEIGHT = Window.HEIGHT;
-
-    private Road road;
+    private final Road road;
 
     /**
      * יוצר אובייקט חדש של Scene עם מיקום נתון.
