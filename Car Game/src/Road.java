@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Road {
@@ -82,7 +81,7 @@ public class Road {
         LinkedList<Point> pointsLeftCenterLine = new LinkedList<>();
         pointsLeftCenterLine.add(new Point(panelWidth / 4, bottomY));
         pointsLeftCenterLine.add(new Point(startXCenter + leftEndX, topY));
-        pointsLeftCenterLine.add(new Point(startXCenter - 2 + leftEndX, topY));
+        pointsLeftCenterLine.add(new Point(startXCenter + leftEndX, topY));
         pointsLeftCenterLine.add(new Point(panelWidth / 4 + 50, bottomY));
         this.leftCenterLine = new ShapeDrawer(pointsLeftCenterLine.toArray(new Point[0]));
         leftCenterLineColor = new QuadrilateralPainter(leftCenterLine.getPoints(), deltaSteps, centerlineMainColor, secondaryColorMidline);
@@ -91,7 +90,7 @@ public class Road {
         LinkedList<Point> pointsRightCenterLine = new LinkedList<>();
         pointsRightCenterLine.add(new Point(panelWidth * 3 / 4, bottomY));
         pointsRightCenterLine.add(new Point(startXCenter * 2 + leftEndX, topY));
-        pointsRightCenterLine.add(new Point(startXCenter * 2 + 2 + leftEndX, topY));
+        pointsRightCenterLine.add(new Point(startXCenter * 2 + leftEndX, topY));
         pointsRightCenterLine.add(new Point(panelWidth * 3 / 4 - 50, bottomY));
         this.rightCenterLine = new ShapeDrawer(pointsRightCenterLine.toArray(new Point[0]));
         rightCenterLineColor = new QuadrilateralPainter(rightCenterLine.getPoints(), deltaSteps, centerlineMainColor, secondaryColorMidline);

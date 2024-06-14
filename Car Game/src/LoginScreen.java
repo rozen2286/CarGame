@@ -39,8 +39,8 @@ public class LoginScreen extends JPanel {
      * @param x המיקום האופקי של הפאנל
      * @param y המיקום האנכי של הפאנל
      */
-    public LoginScreen(int x, int y) {
-        this.setBounds(x, y, WIDTH, HEIGHT);
+    public LoginScreen() {
+        this.setBounds(0,0, WIDTH, HEIGHT);
 
         this.BACKGROUND_IMAGE = new ImageIcon("Car Game/resources/Photos/One-sidedLoginImage.jpg");
 

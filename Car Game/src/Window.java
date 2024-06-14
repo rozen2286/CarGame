@@ -25,7 +25,7 @@ public class Window extends JFrame {
         layeredPane.setBounds(0, 0, WIDTH, HEIGHT);
         this.add(layeredPane);
 
-        LoginScreen loginScreen = new LoginScreen(0, 0);
+        LoginScreen loginScreen = new LoginScreen();
         layeredPane.add(loginScreen, JLayeredPane.DEFAULT_LAYER);
 
         setVisible(true);

@@ -1,11 +1,19 @@
+import Utilities.CalculusMethods;
+
 import java.awt.*;
 import java.util.Arrays;
 import java.util.LinkedList;
+
+import static Utilities.CalculusMethods.calculateIntercept;
+import static Utilities.CalculusMethods.calculateSlope;
 
 /**
  * מחלקה זו משמשת לציור צורות על בסיס נקודות נתונות.
  */
 public class ShapeDrawer {
+
+    public enum Side {LEFT, RIGHT}
+
     private Point[] points;
     private LinkedList<Integer> xPoints;
     private LinkedList<Integer> yPoints;
@@ -85,5 +93,50 @@ public class ShapeDrawer {
      */
     public LinkedList<Integer> getYPoints() {
         return yPoints;
+    }
+
+    /**
+     * מחשב את ערך ה-X עבור קו ישר מסוים ו-y נתון.
+     *
+     * @param side הצד של הקו (LEFT = שמאל, RIGHT = ימין)
+     * @param y ערך ה-y
+     * @return ערך ה-X
+     */
+    public int getLineEquation(Side side, int y) {
+        return side == Side.RIGHT ? Math.round(getLineEquationRight(y)) : Math.round(getLineEquationLeft(y));
+    }
+
+    /**
+     * מחשב את ערך ה-X עבור קו ישר שמאלי ו-y נתון.
+     *
+     * @param y ערך ה-y
+     * @return ערך ה-X
+     */
+    private int getLineEquationLeft(int y) {
+        return calculateXForLine(points[0], points[1], y);
+    }
+
+    /**
+     * מחשב את ערך ה-X עבור קו ישר ימני ו-y נתון.
+     *
+     * @param y ערך ה-y
+     * @return ערך ה-X
+     */
+    private int getLineEquationRight(int y) {
+        return calculateXForLine(points[2], points[3], y);
+    }
+
+    /**
+     * מחשב את ערך ה-X עבור קו ישר נתון ו-y נתון.
+     *
+     * @param p1 נקודת התחלה של הקו
+     * @param p2 נקודת סיום של הקו
+     * @param y ערך ה-y
+     * @return ערך ה-X
+     */
+    private int calculateXForLine(Point p1, Point p2, int y) {
+        double slope = calculateSlope(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+        double intercept = calculateIntercept(p1.getX(), p1.getY(), slope);
+        return (int) CalculusMethods.calculateX(y, slope, intercept);
     }
 }
