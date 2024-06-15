@@ -1,5 +1,7 @@
 package Utilities;
 
+import java.awt.*;
+
 public class CalculusMethods {
 
     /**
@@ -38,8 +40,8 @@ public class CalculusMethods {
      * שתי נקודות (x1 ו-x2) למספר חלקים שווים. התוצאה היא גודל כל חלק כאשר
      * המרחק בין x1 ל-x2 מחולק על ידי הערך הדלתא הנתון.
      *
-     * @param start    הקואורדינטה של הנקודה הראשונה.
-     * @param end    הקואורדינטה של הנקודה השנייה.
+     * @param start הקואורדינטה של הנקודה הראשונה.
+     * @param end   הקואורדינטה של הנקודה השנייה.
      * @param steps מספר החלקים שבהם יש לחלק את המרחק בין x1 ל-x2.
      * @return גודל כל חלק (delta).
      * @throws IllegalArgumentException אם delta הוא אפס, כדי למנוע חלוקה באפס.
@@ -65,6 +67,10 @@ public class CalculusMethods {
             throw new IllegalArgumentException("The slope must not be zero to avoid division by zero.");
         }
         return (y - b) / m;
+    }
+// מרחק בין שתי נקודות
+    public static double calculateWidth(Point a, Point b) {
+        return Math.sqrt(Math.pow(a.getX() - b.getX(), 2.0) + Math.pow(a.getY() - b.getY(), 2.0));
     }
 
     /**
