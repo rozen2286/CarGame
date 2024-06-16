@@ -7,6 +7,7 @@
  * - הרקע נצבע בצבע אפור.
  * - חוט (Thread) משמש להנעת הכביש בצורה רציפה ולעדכון הציור של הסצנה.
  */
+import RoadManagement.Road;
 import Utilities.GraphicsUtils;
 
 import javax.swing.*;

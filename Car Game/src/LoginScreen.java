@@ -35,10 +35,7 @@ public class LoginScreen extends JPanel {
 
     /**
      * יוצר אובייקט חדש של LoginScreen.
-     *
-     * @param x המיקום האופקי של הפאנל
-     * @param y המיקום האנכי של הפאנל
-     */
+     **/
     public LoginScreen() {
         this.setBounds(0,0, WIDTH, HEIGHT);
 
