@@ -9,12 +9,14 @@ public class CarPlayer {
     private int y;
     private final ImageIcon car;
 
-    public CarPlayer(int x, int y) {
+    private static int lane = 2;
 
-        setX(x);
-        setY(y);
+    public CarPlayer() {
 
         car = new ImageIcon("Car Game/resources/Photos/CarPlayerImage.png");
+
+//        this.x = ;
+//        this.y = ;
     }
 
     public void paint(Graphics g) {
@@ -22,27 +24,11 @@ public class CarPlayer {
         g2d.drawImage(car.getImage(), x, y, car.getIconWidth() / 2, car.getIconHeight() / 2, null);
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public static void setLane(int lane) {
+        CarPlayer.lane = lane;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void moveRight() {
-        x += 10;
-    }
-
-    public void moveLeft() {
-        x -= 10;
+    public static int getLane() {
+        return lane;
     }
 }

@@ -3,7 +3,6 @@ package RoadManagement;
 import Utilities.MyPoint;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Road {
@@ -11,11 +10,11 @@ public class Road {
     private final int panelWidth;
     private final int panelHeight;
 
-    private final ShapeDrawer road;
-    private final ShapeDrawer leftLine;
-    private final ShapeDrawer rightLine;
-    private final ShapeDrawer leftCenterLine;
-    private final ShapeDrawer rightCenterLine;
+    private static ShapeDrawer road;
+    private static ShapeDrawer leftLine;
+    private static ShapeDrawer rightLine;
+    private static ShapeDrawer leftCenterLine;
+    private static ShapeDrawer rightCenterLine;
 
     private static final int deltaSteps = 20;
 
@@ -127,23 +126,23 @@ public class Road {
         this.rightCenterLineColor.moveDown();
     }
 
-    public ShapeDrawer getRoad() {
+    public static ShapeDrawer getRoad() {
         return road;
     }
 
-    public ShapeDrawer getLeftLine() {
+    public static ShapeDrawer getLeftLine() {
         return leftLine;
     }
 
-    public ShapeDrawer getRightLine() {
+    public static ShapeDrawer getRightLine() {
         return rightLine;
     }
 
-    public ShapeDrawer getLeftCenterLine() {
+    public static ShapeDrawer getLeftCenterLine() {
         return leftCenterLine;
     }
 
-    public ShapeDrawer getRightCenterLine() {
+    public static ShapeDrawer getRightCenterLine() {
         return rightCenterLine;
     }
 }

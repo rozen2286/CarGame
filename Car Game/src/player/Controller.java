@@ -19,9 +19,13 @@ public class Controller implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            carPlayer.moveRight();
+            if (CarPlayer.getLane() < 3) {
+                CarPlayer.setLane(CarPlayer.getLane() + 1);
+            }
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            carPlayer.moveLeft();
+            if (CarPlayer.getLane() > 1) {
+                CarPlayer.setLane(CarPlayer.getLane() - 1);
+            }
         }
     }
 
