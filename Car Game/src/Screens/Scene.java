@@ -1,12 +1,14 @@
-package Screens; /**
+package Screens;
+/**
  * מחלקה זו מייצגת את הסצנה הראשית של המשחק. היא מרחיבה את JPanel ואחראית על הצגת הסצנה של המשחק,
  * כולל הרקע והכביש. הכביש נע כלפי מטה בצורה רציפה כדי ליצור אפקט אנימציה.
- *
+ * <p>
  * - הסצנה מאותחלת עם מיקום נתון.
  * - הכביש מצויר ומונפש לנוע כלפי מטה.
  * - הרקע נצבע בצבע אפור.
  * - חוט (Thread) משמש להנעת הכביש בצורה רציפה ולעדכון הציור של הסצנה.
  */
+
 import RoadManagement.Road;
 import Utilities.GraphicsUtils;
 import player.CarPlayer;
@@ -45,6 +47,9 @@ public class Scene extends JPanel {
         addKeyListener(controller);
         setFocusable(true);
         requestFocusInWindow();
+
+        Thread moveCarPlayer = moveCarPlayer();
+        moveCarPlayer.start();
     }
 
     /**
@@ -74,9 +79,26 @@ public class Scene extends JPanel {
         Thread thread = new Thread(() -> {
             while (true) {
                 this.road.moveDown();
-                repaint();
+                this.repaint();
                 try {
                     Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return thread;
+    }
+
+    private Thread moveCarPlayer() {
+        Thread thread = new Thread(() -> {
+            while (true) {
+                if (carPlayer.getIsMoving()) {
+                    this.carPlayer.move();
+                    repaint();
+                }
+                try {
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
