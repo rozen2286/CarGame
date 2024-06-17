@@ -70,6 +70,7 @@ public class CalculusMethods {
     }
 // מרחק בין שתי נקודות
     public static double calculateWidth(Point a, Point b) {
+
         return Math.sqrt(Math.pow(a.getX() - b.getX(), 2.0) + Math.pow(a.getY() - b.getY(), 2.0));
     }
 
