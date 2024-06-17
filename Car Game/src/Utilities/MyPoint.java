@@ -1,7 +1,9 @@
+package Utilities;
+
 /**
  * מחלקה זו מייצגת נקודה דו-ממדית עם קואורדינטות x ו-y.
  */
-public class Point {
+public class MyPoint {
 
     private int x;
     private int y;
@@ -12,7 +14,7 @@ public class Point {
      * @param x ערך הקואורדינטה האופקית
      * @param y ערך הקואורדינטה האנכית
      */
-    public Point(int x, int y) {
+    public MyPoint(int x, int y) {
         setX(x);
         setY(y);
     }
@@ -40,8 +42,8 @@ public class Point {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Point point = (Point) o;
-        return x == point.x && y == point.y;
+        MyPoint myPoint = (MyPoint) o;
+        return x == myPoint.x && y == myPoint.y;
     }
 
     /**
