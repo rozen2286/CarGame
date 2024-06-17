@@ -55,7 +55,7 @@ public class QuadrilateralPainter {
         ///////////////////
         this.isEven = 1;
         ///////////////////
-        setPixelsToRise(5);
+        setPixelsToRise(7);
 
         calculateShoulderPoints(this.myPoints[0], this.myPoints[2], leftShoulderX, leftShoulderY);
         calculateShoulderPoints(this.myPoints[1], this.myPoints[3], rightShoulderX, rightShoulderY);
