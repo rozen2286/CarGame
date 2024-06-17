@@ -1,10 +1,9 @@
 package RoadManagement;
 
-import RoadManagement.QuadrilateralPainter;
-import RoadManagement.ShapeDrawer;
 import Utilities.MyPoint;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Road {
@@ -39,18 +38,21 @@ public class Road {
         this.panelWidth = panelWidth;
         this.panelHeight = panelHeight;
 
-        int horizonY = panelHeight / 6;
-        int roadWidth = (int) (panelWidth * 1.5);
+        int horizonY = -50;
+        int halfPanelWidth = panelWidth / 2;
+        int roadWidth = halfPanelWidth - 125;
+        int sideOffset = 80;
+        int centerOffset = 25;
 
-        int leftStartX = panelWidth / 2 - roadWidth / 2;
-        int leftEndX = panelWidth / 2 - 50;
-        int leftMidX1 = leftEndX;
-        int leftMidX2 = leftStartX - 80;
+        int leftStartX = 0;
+        int leftEndX = roadWidth;
+        int leftMidX1 = leftEndX - 10;
+        int leftMidX2 = leftStartX - sideOffset;
 
-        int rightStartX = panelWidth / 2 + roadWidth / 2;
-        int rightEndX = panelWidth / 2 + 50;
-        int rightMidX1 = rightEndX;
-        int rightMidX2 = rightStartX + 80;
+        int rightStartX = panelWidth - 20;
+        int rightEndX = halfPanelWidth + 125;
+        int rightMidX1 = rightEndX + 10;
+        int rightMidX2 = rightStartX + sideOffset;
 
         int startXCenter = (rightEndX - leftEndX) / 3;
 
@@ -61,8 +63,8 @@ public class Road {
         LinkedList<MyPoint> pointsRoad = new LinkedList<>();
         pointsRoad.add(new MyPoint(leftStartX, bottomY));
         pointsRoad.add(new MyPoint(rightStartX, bottomY));
-        pointsRoad.add(new MyPoint(panelWidth / 2 + 50, topY));
-        pointsRoad.add(new MyPoint(panelWidth / 2 - 50, topY));
+        pointsRoad.add(new MyPoint(rightEndX, topY));
+        pointsRoad.add(new MyPoint(leftEndX, topY));
         this.road = new ShapeDrawer(pointsRoad.toArray(new MyPoint[0]));
 
         // יצירת רשימת נקודות עבור קו שמאלי
@@ -85,19 +87,19 @@ public class Road {
 
         // יצירת רשימת נקודות עבור קו מרכזי שמאלי
         LinkedList<MyPoint> pointsLeftCenterLine = new LinkedList<>();
-        pointsLeftCenterLine.add(new MyPoint(panelWidth / 4, bottomY));
+        pointsLeftCenterLine.add(new MyPoint(panelWidth / 3 - centerOffset, bottomY));
         pointsLeftCenterLine.add(new MyPoint(startXCenter + leftEndX, topY));
         pointsLeftCenterLine.add(new MyPoint(startXCenter + leftEndX, topY));
-        pointsLeftCenterLine.add(new MyPoint(panelWidth / 4 + 50, bottomY));
+        pointsLeftCenterLine.add(new MyPoint(panelWidth / 3 + centerOffset, bottomY));
         this.leftCenterLine = new ShapeDrawer(pointsLeftCenterLine.toArray(new MyPoint[0]));
         leftCenterLineColor = new QuadrilateralPainter(leftCenterLine.getPoints(), deltaSteps, centerlineMainColor, secondaryColorMidline);
 
         // יצירת רשימת נקודות עבור קו מרכזי ימני
         LinkedList<MyPoint> pointsRightCenterLine = new LinkedList<>();
-        pointsRightCenterLine.add(new MyPoint(panelWidth * 3 / 4, bottomY));
+        pointsRightCenterLine.add(new MyPoint(2 * panelWidth / 3 - centerOffset, bottomY));
         pointsRightCenterLine.add(new MyPoint(startXCenter * 2 + leftEndX, topY));
         pointsRightCenterLine.add(new MyPoint(startXCenter * 2 + leftEndX, topY));
-        pointsRightCenterLine.add(new MyPoint(panelWidth * 3 / 4 - 50, bottomY));
+        pointsRightCenterLine.add(new MyPoint(2 * panelWidth / 3 + centerOffset, bottomY));
         this.rightCenterLine = new ShapeDrawer(pointsRightCenterLine.toArray(new MyPoint[0]));
         rightCenterLineColor = new QuadrilateralPainter(rightCenterLine.getPoints(), deltaSteps, centerlineMainColor, secondaryColorMidline);
     }
@@ -123,5 +125,25 @@ public class Road {
         this.rightLineColor.moveDown();
         this.leftCenterLineColor.moveDown();
         this.rightCenterLineColor.moveDown();
+    }
+
+    public ShapeDrawer getRoad() {
+        return road;
+    }
+
+    public ShapeDrawer getLeftLine() {
+        return leftLine;
+    }
+
+    public ShapeDrawer getRightLine() {
+        return rightLine;
+    }
+
+    public ShapeDrawer getLeftCenterLine() {
+        return leftCenterLine;
+    }
+
+    public ShapeDrawer getRightCenterLine() {
+        return rightCenterLine;
     }
 }

@@ -9,6 +9,8 @@
  */
 import RoadManagement.Road;
 import Utilities.GraphicsUtils;
+import player.CarPlayer;
+import player.Controller;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +23,8 @@ public class Scene extends JPanel {
     public static final int WIDTH = Window.WIDTH;
     public static final int HEIGHT = Window.HEIGHT;
     private final Road road;
+    private final CarPlayer carPlayer;
+    private final Controller controller;
 
     /**
      * יוצר אובייקט חדש של Scene עם מיקום נתון.
@@ -34,6 +38,13 @@ public class Scene extends JPanel {
         road = new Road(WIDTH, HEIGHT);
         Thread moveRoad = moveRoad();
         moveRoad.start();
+
+        carPlayer = new CarPlayer(400,500);
+
+        controller = new Controller(carPlayer);
+        addKeyListener(controller);
+        setFocusable(true);
+        requestFocusInWindow();
     }
 
     /**
@@ -50,6 +61,8 @@ public class Scene extends JPanel {
 
         // ציור הכביש
         road.drawShape(g);
+
+        carPlayer.paint(g);
     }
 
     /**
