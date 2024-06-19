@@ -68,11 +68,6 @@ public class CalculusMethods {
         }
         return (y - b) / m;
     }
-// מרחק בין שתי נקודות
-    public static double calculateWidth(Point a, Point b) {
-
-        return Math.sqrt(Math.pow(a.getX() - b.getX(), 2.0) + Math.pow(a.getY() - b.getY(), 2.0));
-    }
 
     /**
      * מחשבת את ערך ה-y לפי ערך ה-x, שיפוע הקו וחיתוך הציר y.

@@ -106,7 +106,9 @@ public class ShapeDrawer {
      * @return ערך ה-X
      */
     public int getLineEquation(Side side, int y) {
+
         return side == Side.RIGHT ? Math.round(getLineEquationRight(y)) : Math.round(getLineEquationLeft(y));
+
     }
 
     /**

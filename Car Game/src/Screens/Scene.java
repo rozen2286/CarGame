@@ -9,6 +9,8 @@ package Screens;
  * - חוט (Thread) משמש להנעת הכביש בצורה רציפה ולעדכון הציור של הסצנה.
  */
 
+import EnemyCar.CarGen;
+import EnemyCar.GenertedCar;
 import RoadManagement.Road;
 import Utilities.GraphicsUtils;
 import player.CarPlayer;
@@ -27,6 +29,8 @@ public class Scene extends JPanel {
     private final Road road;
     private final CarPlayer carPlayer;
     private final Controller controller;
+    private CarGen generetor;
+   private GenertedCar car;
 
     /**
      * יוצר אובייקט חדש של Screens.Scene עם מיקום נתון.
@@ -36,20 +40,23 @@ public class Scene extends JPanel {
      */
     public Scene(int x, int y) {
         setBounds(x, y, WIDTH, HEIGHT);
-
+        generetor = new CarGen();
         road = new Road(WIDTH, HEIGHT);
         Thread moveRoad = moveRoad();
         moveRoad.start();
 
         carPlayer = new CarPlayer();
 
+        car =new GenertedCar(2);
         controller = new Controller(carPlayer);
         addKeyListener(controller);
         setFocusable(true);
         requestFocusInWindow();
 
+
         Thread moveCarPlayer = moveCarPlayer();
         moveCarPlayer.start();
+
     }
 
     /**
@@ -67,7 +74,11 @@ public class Scene extends JPanel {
         // ציור הכביש
         road.drawShape(g);
 
+       generetor.drawCars(g);
         carPlayer.paint(g);
+
+
+
     }
 
     /**
@@ -79,6 +90,7 @@ public class Scene extends JPanel {
         Thread thread = new Thread(() -> {
             while (true) {
                 this.road.moveDown();
+                generetor.moveCars();
                 this.repaint();
                 try {
                     Thread.sleep(10);
@@ -94,11 +106,12 @@ public class Scene extends JPanel {
         Thread thread = new Thread(() -> {
             while (true) {
                 if (carPlayer.getIsMoving()) {
-                    this.carPlayer.move();
+                   this.carPlayer.move();
                     repaint();
                 }
+
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(7);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -106,4 +119,5 @@ public class Scene extends JPanel {
         });
         return thread;
     }
+
 }

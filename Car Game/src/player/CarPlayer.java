@@ -30,6 +30,10 @@ public class CarPlayer {
         isMoving = true;
     }
 
+    public ImageIcon getCar() {
+        return car;
+    }
+
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(car.getImage(), point.getX(), point.getY(), car.getIconWidth() / 2, car.getIconHeight() / 2, null);
@@ -69,11 +73,11 @@ public class CarPlayer {
 
     public void move() {
         int targetX = this.lanePositionsX[this.lane];
-        if (point.getX() < targetX) {
-            point.setX(point.getX() + 1);
+        if (this.point.getX() < targetX) {
+            this.point.setX(this.point.getX() + 1);
             setMoving(true);
         } else if (point.getX() > targetX) {
-            point.setX(point.getX() - 1);
+            this.point.setX(point.getX() - 1);
             setMoving(true);
         } else {
             setMoving(false);

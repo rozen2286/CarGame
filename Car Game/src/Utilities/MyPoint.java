@@ -70,7 +70,7 @@ public class MyPoint {
      * @return ערך הקואורדינטה האופקית
      */
     public int getX() {
-        return x;
+        return this.x;
     }
 
     /**
@@ -79,6 +79,6 @@ public class MyPoint {
      * @return ערך הקואורדינטה האנכית
      */
     public int getY() {
-        return y;
+        return this.y;
     }
 }
