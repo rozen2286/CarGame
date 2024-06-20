@@ -10,6 +10,7 @@ public class Road {
     private final int panelWidth;
     private final int panelHeight;
 
+    public static final int START_ROD_Y = -150;
     private static ShapeDrawer road;
     private static ShapeDrawer leftLine;
     private static ShapeDrawer rightLine;
@@ -37,7 +38,6 @@ public class Road {
         this.panelWidth = panelWidth;
         this.panelHeight = panelHeight;
 
-        int horizonY = -50;
         int halfPanelWidth = panelWidth / 2;
         int roadWidth = halfPanelWidth - 125;
         int sideOffset = 80;
@@ -56,7 +56,7 @@ public class Road {
         int startXCenter = (rightEndX - leftEndX) / 3;
 
         int bottomY = panelHeight;
-        int topY = horizonY;
+        int topY = START_ROD_Y;
 
         // יצירת רשימת נקודות עבור הכביש
         LinkedList<MyPoint> pointsRoad = new LinkedList<>();

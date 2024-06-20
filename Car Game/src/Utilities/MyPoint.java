@@ -19,6 +19,10 @@ public class MyPoint {
         setY(y);
     }
 
+    public MyPoint() {
+        this(0,0);
+    }
+
     /**
      * מחזיר מחרוזת שמייצגת את האובייקט.
      *

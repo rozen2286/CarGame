@@ -1,97 +1,74 @@
 package Screens;
-/**
- * מחלקה זו מייצגת את הסצנה הראשית של המשחק. היא מרחיבה את JPanel ואחראית על הצגת הסצנה של המשחק,
- * כולל הרקע והכביש. הכביש נע כלפי מטה בצורה רציפה כדי ליצור אפקט אנימציה.
- * <p>
- * - הסצנה מאותחלת עם מיקום נתון.
- * - הכביש מצויר ומונפש לנוע כלפי מטה.
- * - הרקע נצבע בצבע אפור.
- * - חוט (Thread) משמש להנעת הכביש בצורה רציפה ולעדכון הציור של הסצנה.
- */
 
-import EnemyCar.CarGen;
-import EnemyCar.GenertedCar;
+import EnemyCar.EnemyCarFactory;
 import RoadManagement.Road;
 import Utilities.GraphicsUtils;
 import player.CarPlayer;
 import player.Controller;
+import player.OvertakeMeter;
+import player.Speedometer;
 
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * מחלקה זו מייצגת את הסצנה הראשית של המשחק.
- */
 public class Scene extends JPanel {
-
     public static final int WIDTH = Window.WIDTH;
     public static final int HEIGHT = Window.HEIGHT;
     private final Road road;
     private final CarPlayer carPlayer;
     private final Controller controller;
-    private CarGen generetor;
-   private GenertedCar car;
+    private final Speedometer speedometer;
+    private final OvertakeMeter overtakeMeter;
+    private EnemyCarFactory enemyCarFactory;
+    private boolean running = true;
 
-    /**
-     * יוצר אובייקט חדש של Screens.Scene עם מיקום נתון.
-     *
-     * @param x המיקום האופקי של הסצנה
-     * @param y המיקום האנכי של הסצנה
-     */
     public Scene(int x, int y) {
         setBounds(x, y, WIDTH, HEIGHT);
-        generetor = new CarGen();
+
         road = new Road(WIDTH, HEIGHT);
-        Thread moveRoad = moveRoad();
-        moveRoad.start();
 
         carPlayer = new CarPlayer();
 
-        car =new GenertedCar(2);
-        controller = new Controller(carPlayer);
+        controller = new Controller(this, carPlayer);
         addKeyListener(controller);
         setFocusable(true);
         requestFocusInWindow();
 
+        speedometer = new Speedometer(0,0, 0);
+        speedometer.setSpeedLimit(100);
 
-        Thread moveCarPlayer = moveCarPlayer();
-        moveCarPlayer.start();
+        overtakeMeter = new OvertakeMeter(WIDTH - 220, 0, 5);
 
+        enemyCarFactory = new EnemyCarFactory();
+
+        startThreads();
     }
 
-    /**
-     * מציירת את הסצנה והרכיבים הגרפיים שלה.
-     *
-     * @param g אובייקט ה-Graphics המשמש לציור
-     */
-    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        GraphicsUtils.paintBackground(g, WIDTH, HEIGHT, 0, 0, Color.WHITE);
 
-        // צביעת הרקע בצבע אפור
-        GraphicsUtils.paintBackground(g, WIDTH, HEIGHT, 0, 0, Color.GRAY);
-
-        // ציור הכביש
         road.drawShape(g);
 
-       generetor.drawCars(g);
         carPlayer.paint(g);
 
+        speedometer.paint(g);
 
+        overtakeMeter.paint(g);
 
+        enemyCarFactory.paintCars(g);
     }
 
-    /**
-     * יוצר ומחזיר חוט (Thread) המניע את הכביש כלפי מטה כל הזמן ומרענן את הציור.
-     *
-     * @return Thread חוט המניע את הכביש ומרענן את הציור
-     */
-    private Thread moveRoad() {
+    private Thread moveRoadAndCars() {
         Thread thread = new Thread(() -> {
-            while (true) {
-                this.road.moveDown();
-                generetor.moveCars();
-                this.repaint();
+            while (running) {
+                road.moveDown();
+
+                enemyCarFactory.addCar();
+                enemyCarFactory.moveCars();
+                enemyCarFactory.removeCars();
+
+                repaint();
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
@@ -104,14 +81,13 @@ public class Scene extends JPanel {
 
     private Thread moveCarPlayer() {
         Thread thread = new Thread(() -> {
-            while (true) {
+            while (running) {
                 if (carPlayer.getIsMoving()) {
-                   this.carPlayer.move();
+                    carPlayer.move();
                     repaint();
                 }
-
                 try {
-                    Thread.sleep(7);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -120,4 +96,35 @@ public class Scene extends JPanel {
         return thread;
     }
 
+    private Thread moveOvertakeMeter() {
+        Thread thread = new Thread(() -> {
+            while (running) {
+                this.speedometer.move();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return thread;
+    }
+
+    private void startThreads() {
+        running = true;
+        Thread moveRoad = moveRoadAndCars();
+        moveRoad.start();
+        Thread moveCarPlayer = moveCarPlayer();
+        moveCarPlayer.start();
+        Thread moveOvertakeMeter = moveOvertakeMeter();
+        moveOvertakeMeter.start();
+    }
+
+    public void stopThreads() {
+        running = false;
+    }
+
+    public void resumeThreads() {
+        startThreads();
+    }
 }

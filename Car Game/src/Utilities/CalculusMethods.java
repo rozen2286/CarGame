@@ -1,7 +1,5 @@
 package Utilities;
 
-import java.awt.*;
-
 public class CalculusMethods {
 
     /**
@@ -81,6 +79,15 @@ public class CalculusMethods {
         return x * m + b;
     }
 
+    /**
+     * מחשבת את המרחק (הרוחב) בין שתי נקודות במישור.
+     *
+     * @param x1 הקואורדינטה האופקית של הנקודה הראשונה.
+     * @param y1 הקואורדינטה האנכית של הנקודה הראשונה.
+     * @param x2 הקואורדינטה האופקית של הנקודה השנייה.
+     * @param y2 הקואורדינטה האנכית של הנקודה השנייה.
+     * @return המרחק (הרוחב) בין שתי הנקודות.
+     */
     public static double getWidth(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow((x2 - x1), 2.0) + Math.pow((y2 - y1), 2.0));
     }

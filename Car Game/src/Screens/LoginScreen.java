@@ -1,10 +1,6 @@
 package Screens;
 
-import Screens.Scene;
-import Utilities.FasterOneFont;
-import Utilities.RoundedCornerButton;
-import Utilities.GraphicsUtils;
-import Utilities.PoetsenOneFont;
+import Utilities.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,10 +14,10 @@ public class LoginScreen extends JPanel {
     public static final int HEIGHT = Window.HEIGHT;
 
     private final ImageIcon BACKGROUND_IMAGE;
-    private static final float ALPHA = 1.0f;
+    public static final float ALPHA = 1.0f;
 
     private static final String[] TITLE_TEXT = {"Crazy", "Cars"};
-    private static final Font CUSTOM_FONT_TEXT = FasterOneFont.getCustomFont(125f);
+    private static final Font CUSTOM_FONT_TEXT = MyFont.getCustomFont(MyFont.eFont.FasterOne,125f);
     private static final int TITLE_WIDTH = 500;
     private static final int TITLE_HEIGHT = 100;
     private static int title_x = WIDTH / 2 - TITLE_WIDTH / 2;
@@ -33,8 +29,8 @@ public class LoginScreen extends JPanel {
     private static final int HEIGHT_START_BUTTON = 50;
     private static final String START_TEXT = "START";
     private static final String SETTINGS_TEXT = "SETTINGS";
-    private static final Font CUSTOM_FONT_BUTTON = PoetsenOneFont.getCustomFont(25f);
-    private static final Color COLOR_BUTTON = new Color(139, 123, 116);
+    public static final Font CUSTOM_FONT_BUTTON = MyFont.getCustomFont(MyFont.eFont.PoetsenOne,25f);
+    public static final Color COLOR_BUTTON = new Color(139, 123, 116);
 
     /**
      * יוצר אובייקט חדש של Screens.LoginScreen.
@@ -65,9 +61,15 @@ public class LoginScreen extends JPanel {
         settingButton.addActionListener((event) -> {
             SettingsPanel settingsPanel = new SettingsPanel(Window.WIDTH / 3, Window.HEIGHT / 10);
             Window.addPanelOnTop(settingsPanel);
+            settingsPanel.requestFocus();
+
+            startButton.setVisible(false);
+            settingButton.setVisible(false);
 
             settingsPanel.addCancelButtonActionListener((e) -> {
                 Window.removeTopPanel(settingsPanel);
+                startButton.setVisible(true);
+                settingButton.setVisible(true);
             });
         });
     }

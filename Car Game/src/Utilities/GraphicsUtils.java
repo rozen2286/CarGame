@@ -24,6 +24,29 @@ public class GraphicsUtils {
     }
 
     /**
+     * מצייר גבול מלבן עם פינות מעוגלות.
+     *
+     * @param g הגרפיקה בה להשתמש לציור.
+     * @param panelWidth רוחב הפאנל.
+     * @param panelHeight גובה הפאנל.
+     * @param strokeWidth עובי הקו של הגבול.
+     * @param r1 רדיוס הפינה האופקית של המלבן.
+     * @param r2 רדיוס הפינה האנכית של המלבן.
+     * @param color הצבע בו להשתמש לגבול המלבן.
+     */
+    public static void paintRoundedBorder(Graphics g, int panelWidth, int panelHeight, int strokeWidth, int r1, int r2, Color color) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(color);
+        g2d.setStroke(new BasicStroke(strokeWidth));
+        int x = strokeWidth / 2;
+        int y = strokeWidth / 2;
+        int width = panelWidth - strokeWidth;
+        int height = panelHeight - strokeWidth;
+        g2d.drawRoundRect(x, y, width, height, r1, r2);
+    }
+
+    /**
      * מצייר תמונה עם אלפא (שקיפות).
      *
      * @param g הגרפיקה בה להשתמש לציור.

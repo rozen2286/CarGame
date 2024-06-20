@@ -27,7 +27,7 @@ public class QuadrilateralPainter {
     private final Color color2;
     private int isEven;
 
-    private int pixelsToRise;
+    private static int pixelsToRise;
 
     /**
      * יוצר אובייקט חדש של RoadManagement.QuadrilateralPainter עם נקודות, מספר צעדים ושני צבעים.
@@ -55,7 +55,7 @@ public class QuadrilateralPainter {
         ///////////////////
         this.isEven = 1;
         ///////////////////
-        setPixelsToRise(7);
+        setPixelsToRise(5);
 
         calculateShoulderPoints(this.myPoints[0], this.myPoints[2], leftShoulderX, leftShoulderY);
         calculateShoulderPoints(this.myPoints[1], this.myPoints[3], rightShoulderX, rightShoulderY);
@@ -95,8 +95,12 @@ public class QuadrilateralPainter {
      *
      * @param pixelsToRise מספר הפיקסלים לעליה
      */
-    public void setPixelsToRise(int pixelsToRise) {
-        this.pixelsToRise = pixelsToRise;
+    public static void setPixelsToRise(int pixelsToRise) {
+        QuadrilateralPainter.pixelsToRise = pixelsToRise;
+    }
+
+    public static int getPixelsToRise() {
+        return pixelsToRise;
     }
 
     /**
