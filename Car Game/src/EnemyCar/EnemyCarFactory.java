@@ -24,8 +24,7 @@ public class EnemyCarFactory {
 
     private static Random randomCars;
 
-    private int lastLane;
-    private boolean valid;
+    private static int counter;
 
     public EnemyCarFactory() {
 
@@ -53,75 +52,122 @@ public class EnemyCarFactory {
         randomCars = new Random();
     }
 
-    public void paintCars(Graphics g) {
+    /**
+     * מחזירה את המערך של המכוניות.
+     * @return LinkedList<CarGenerator> המערך של המכוניות.
+     */
+    public synchronized LinkedList<CarGenerator> getCarsArray() {
+        return carsArray;
+    }
+
+    /**
+     * מציירת את כל המכוניות על המסך.
+     * @param g הגרפיקה לציור.
+     */
+    public synchronized void paintCars(Graphics g) {
         if (!carsArray.isEmpty()) {
-            for (CarGenerator cars : carsArray) {
+            for (CarGenerator cars : getCarsArray()) {
                 cars.paint(g);
             }
         }
     }
 
-    public void moveCars() {
+    /**
+     * מזיזה את כל המכוניות.
+     */
+    public synchronized void moveCars() {
         if (!carsArray.isEmpty()) {
-            for (CarGenerator cars : carsArray) {
+            for (CarGenerator cars : getCarsArray()) {
                 cars.move();
             }
         }
     }
 
-    public void removeCars() {
-        if (!carsArray.isEmpty()) {
+    /**
+     * מסירה מכוניות שעברו את גובה המסך.
+     */
+    public synchronized void removeCars() {
+        if (!getCarsArray().isEmpty()) {
             Iterator<CarGenerator> iterator = carsArray.iterator();
             while (iterator.hasNext()) {
                 CarGenerator car = iterator.next();
-                if (car.getPoint().getY() > Scene.HEIGHT) {
+                if (car.getPosition().getY() > Scene.HEIGHT) {
                     iterator.remove();
+                    counter++;
                 }
             }
         }
     }
 
+    /**
+     * מחזירה את המונה של המכוניות שהוסרו.
+     * @return int המונה של המכוניות שהוסרו.
+     */
+    public static int getCounter() {
+        return counter;
+    }
 
+    public static void resetCounter() {
+        counter = 0;
+    }
+
+    /**
+     * בודקת אם יש מספיק מרחק בין המכוניות ליצירת מכונית חדשה.
+     * @return boolean true אם יש מספיק מרחק, false אחרת.
+     */
     private boolean distanceCheck() {
-        if (carsArray.isEmpty()) {
+        if (getCarsArray().isEmpty()) {
             return true;
-        } else if (carsArray.get(carsArray.size() - 1).getPoint().getY() > CAR_HEIGHT * 1.5) {
+        } else if (carsArray.get(carsArray.size() - 1).getPosition().getY() > CAR_HEIGHT * 1.2) {
             return true;
         }
         return false;
     }
 
+    /**
+     * מוסיפה מכונית חדשה למערך.
+     */
     public void addCar() {
-
         int lane = getRandomLane();
 
         if (distanceCheck()) {
-
             String fileName = getRandomCarImage(lane);
-            this.carsArray.add(new CarGenerator(widthCar(lane), CAR_HEIGHT, fileName, lane));
-
-            this.lastLane = lane;
-            this.valid = true;
-
-        } else if (lane != lastLane && valid) {
-
-            String fileName = getRandomCarImage(lane);
-            this.carsArray.add(new CarGenerator(widthCar(lane), CAR_HEIGHT, fileName, lane));
-
-            this.lastLane = lane;
-            this.valid = false;
+            addCarToArray(lane, fileName);
         }
     }
 
+    /**
+     * מוסיפה מכונית חדשה למערך עם פרטי נתיב וקובץ תמונה.
+     * @param lane הנתיב של המכונית החדשה.
+     * @param fileName שם קובץ התמונה של המכונית החדשה.
+     */
+    private synchronized void addCarToArray(int lane, String fileName) {
+        this.carsArray.add(new CarGenerator(widthCar(lane), CAR_HEIGHT, fileName, lane));
+    }
+
+    /**
+     * מחזירה את רוחב המכונית בהתחשב בנתיב.
+     * @param lane הנתיב של המכונית.
+     * @return int הרוחב של המכונית.
+     */
     private int widthCar(int lane) {
         return lane == 1 ? CENTER_LANE_WIDTH : OTHER_LANE_WIDTH;
     }
 
+    /**
+     * מחזירה נתיב רנדומלי.
+     * @return int נתיב רנדומלי בין 0 ל-2.
+     */
     private int getRandomLane() {
         return new Random().nextInt(3);
     }
 
-    private String getRandomCarImage(int lane) {
+    /**
+     * מחזירה שם קובץ תמונה רנדומלי בהתחשב בנתיב.
+     * @param lane הנתיב של המכונית.
+     * @return String שם קובץ התמונה של המכונית.
+     */
+    private synchronized String getRandomCarImage(int lane) {
         int index;
         switch (lane) {
             case 0:
@@ -138,7 +184,14 @@ public class EnemyCarFactory {
         }
     }
 
-    public static int getLanePositionsX(int lane, MyPoint point, int width) {
+    /**
+     * מחזירה את המיקום הרוחבי של המכונית בהתחשב בנתיב.
+     * @param lane הנתיב של המכונית.
+     * @param point נקודת המיקום של המכונית.
+     * @param width הרוחב של המכונית.
+     * @return int המיקום הרוחבי של המכונית.
+     */
+    public static synchronized int getLanePositionsX(int lane, MyPoint point, int width) {
         switch (lane) {
             case 0:
                 return getLanePosition(point, width, Road.getLeftLine(), Road.getLeftCenterLine());
@@ -150,13 +203,27 @@ public class EnemyCarFactory {
         return 0;
     }
 
-    private static int getLanePosition(MyPoint point, int width, ShapeDrawer startLane, ShapeDrawer endLane) {
+    /**
+     * מחשבת את המיקום הרוחבי של המכונית בהתחשב בנתיב ומיקום.
+     * @param point נקודת המיקום של המכונית.
+     * @param width הרוחב של המכונית.
+     * @param startLane הנתיב ההתחלתי של המכונית.
+     * @param endLane הנתיב הסופי של המכונית.
+     * @return int המיקום הרוחבי של המכונית.
+     */
+    private static synchronized int getLanePosition(MyPoint point, int width, ShapeDrawer startLane, ShapeDrawer endLane) {
         int laneWidth = (int) Math.round(CalculusMethods.getWidth(endLane.getLineEquation(ShapeDrawer.Side.LEFT, point.getY()), point.getY(),
                 startLane.getLineEquation(ShapeDrawer.Side.RIGHT, point.getY()), point.getY())) / 2 - width / 2;
         return laneWidth + startLane.getLineEquation(ShapeDrawer.Side.RIGHT, point.getY());
     }
 
-    public static int getWidthLane(int lane, int y) {
+    /**
+     * מחזירה את רוחב הנתיב בהתחשב בנתיב וגובה המכונית.
+     * @param lane הנתיב של המכונית.
+     * @param y הגובה של המכונית.
+     * @return int רוחב הנתיב.
+     */
+    public static synchronized int getWidthLane(int lane, int y) {
         switch (lane) {
             case 0:
                 return (int) Math.round(CalculusMethods.getWidth(Road.getLeftLine().getLineEquation(ShapeDrawer.Side.RIGHT, y), y, Road.getLeftCenterLine().getLineEquation(ShapeDrawer.Side.LEFT, y), y));
@@ -167,5 +234,14 @@ public class EnemyCarFactory {
             default:
                 throw new IllegalArgumentException("Invalid lane: " + lane);
         }
+    }
+
+    /**
+     * מפעילה את תהליך יצירת המכוניות.
+     */
+    public void start() {
+        addCar();
+        moveCars();
+        removeCars();
     }
 }

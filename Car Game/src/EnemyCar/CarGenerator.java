@@ -1,8 +1,6 @@
 package EnemyCar;
 
 import RoadManagement.Road;
-import Screens.Scene;
-import Utilities.CalculusMethods;
 import Utilities.MyPoint;
 
 import javax.swing.*;
@@ -10,58 +8,80 @@ import java.awt.*;
 
 public class CarGenerator {
 
-    private MyPoint point;
+    private MyPoint position;
 
-    private final ImageIcon CAR;
-    private int width;
-    private int height;
+    private final ImageIcon carIcon;
+    private final int width;
+    private final int height;
 
-    private int lane;
+    private final int lane;
+    private static int speed;
 
+    /**
+     * בונה את האובייקט של מחולל המכונית.
+     * @param width הרוחב של התמונה של המכונית.
+     * @param height הגובה של התמונה של המכונית.
+     * @param fileName שם קובץ התמונה של המכונית.
+     * @param lane הנתיב בו המכונית תמוקם.
+     */
     public CarGenerator(int width, int height, String fileName, int lane) {
+        this.position = new MyPoint();
+        this.position.setY(Road.START_ROD_Y);  // מניחים ש- START_ROD_Y הוא קבוע במחלקת Road
 
-        point = new MyPoint();
-        this.point.setY(Road.START_ROD_Y);
-
-        CAR = new ImageIcon(fileName);
+        this.carIcon = new ImageIcon(fileName);
         this.lane = lane;
-        this.point.setX(EnemyCarFactory.getLanePositionsX(this.lane, this.point, width));
+        this.position.setX(EnemyCarFactory.getLanePositionsX(this.lane, this.position, width));
 
-        this.width = -150;
-        this.height = height / 4;
+        this.width = width;
+        this.height = height;
     }
 
+    /**
+     * מצייר את המכונית על המסך.
+     * @param g הגרפיקה לציור.
+     */
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(CAR.getImage(), point.getX(), point.getY(), width, height, null);
+        g2d.drawImage(carIcon.getImage(), position.getX(), position.getY(), width, height, null);
     }
 
+    /**
+     * מזיז את המכונית על הציר האנכי.
+     */
     public void move() {
-        this.point.setY(point.getY() + 3);
-        this.point.setX(EnemyCarFactory.getLanePositionsX(this.lane, this.point, width));
-
-        carResizing();
+        this.position.setY(this.position.getY() + speed);
+        this.position.setX(EnemyCarFactory.getLanePositionsX(this.lane, this.position, this.width));
     }
 
-    private void carResizing() {
-        if (height < EnemyCarFactory.CAR_HEIGHT) {
-            if (point.getY() % 5 == 0) {
-                this.height += 2;
-            }
-        }
-
-        if (lane == 1) {
-            if (width < EnemyCarFactory.CENTER_LANE_WIDTH) {
-                this.width = EnemyCarFactory.getWidthLane(lane, point.getY()) / 2;
-            }
-            return;
-        }
-        if (width < EnemyCarFactory.OTHER_LANE_WIDTH) {
-            this.width = EnemyCarFactory.getWidthLane(lane, point.getY()) / 2;
-        }
+    /**
+     * מחזירה את המיקום הנוכחי של המכונית.
+     * @return האובייקט MyPoint שמייצג את המיקום הנוכחי של המכונית.
+     */
+    public MyPoint getPosition() {
+        return position;
     }
 
-    public MyPoint getPoint() {
-        return point;
+    /**
+     * קובעת את המהירות של המכונית.
+     * @param speed המהירות של המכונית.
+     */
+    public static void setSpeed(int speed) {
+        CarGenerator.speed = speed;
+    }
+
+    /**
+     * מחזירה את המהירות הנוכחית של המכונית.
+     * @return המהירות של המכונית.
+     */
+    public static int getSpeed() {
+        return speed;
+    }
+
+    /**
+     * מחזירה את גבולות המכונית כמלבן.
+     * @return אובייקט Rectangle שמייצג את גבולות המכונית.
+     */
+    public Rectangle getBounds() {
+        return new Rectangle(position.getX(), position.getY(), width - 10, height - 10);
     }
 }

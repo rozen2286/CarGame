@@ -95,14 +95,20 @@ public class CarPlayer {
      * @return מערך של מיקומים אופקיים לכל נתיב (שמאל, מרכז, ימין)
      */
     private int[] setLanePositionsX() {
-
         int lane0 = getLanePosition(point, this.CAR_CENTER, Road.getLeftLine(), Road.getLeftCenterLine());
         int lane1 = getLanePosition(point, this.CAR_CENTER, Road.getLeftCenterLine(), Road.getRightCenterLine());
         int lane2 = getLanePosition(point, this.CAR_CENTER, Road.getRightCenterLine(), Road.getRightLine());
-
         return new int[]{lane0, lane1, lane2};
     }
 
+    /**
+     * מחזירה את המיקום האופקי של נתיב בהתחשב במיקום הרכב וברוחב הנתיב
+     * @param point נקודת המיקום של הרכב
+     * @param imageIcon תמונת הרכב
+     * @param startLane הנתיב ההתחלתי
+     * @param endLane הנתיב הסופי
+     * @return המיקום האופקי של הנתיב
+     */
     private static int getLanePosition(MyPoint point, ImageIcon imageIcon, ShapeDrawer startLane, ShapeDrawer endLane) {
         int laneWidth = (int) Math.round(CalculusMethods.getWidth(endLane.getLineEquation(ShapeDrawer.Side.LEFT, point.getY()), point.getY(),
                 startLane.getLineEquation(ShapeDrawer.Side.RIGHT, point.getY()), point.getY())) / 2 - imageIcon.getIconWidth() / 4;
@@ -123,5 +129,13 @@ public class CarPlayer {
         } else {
             setMoving(false);
         }
+    }
+
+    /**
+     * מחזירה את גבולות הרכב כמלבן
+     * @return אובייקט Rectangle שמייצג את גבולות הרכב
+     */
+    public Rectangle getBounds() {
+        return new Rectangle(point.getX(), point.getY(), CAR_WIDTH - 10, CAR_CENTER.getIconHeight() / 2 - 10);
     }
 }

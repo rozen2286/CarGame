@@ -7,11 +7,11 @@ public class Speedometer {
 
     private final int x;
     private final int y;
-    private static int speed;
+    private int speed;
     private int speedLimit;
     private int travelSpeed;
     private static final ImageIcon GAUGE = new ImageIcon("Car Game/resources/Photos/speedometerImage1.png");
-    private static int minSpeed;
+    private int minSpeed;
 
     private static final int MAX_SPEED = 160;
     private static final int ANGLE_OFFSET = 80;
@@ -45,25 +45,35 @@ public class Speedometer {
         int ovalCenterX = x + GAUGE.getIconWidth() / 2;
         int ovalCenterY = y + (GAUGE.getIconHeight() * 2 / 3) + OVAL_CENTER_Y_OFFSET;
 
+        // חישוב הזווית למחוגה לפי המהירות הנוכחית
         double angle = Math.toRadians((speed / (double) MAX_SPEED) * 160 - ANGLE_OFFSET);
 
         int[] xPoints = new int[3];
         int[] yPoints = new int[3];
 
+        // חישוב הנקודות של המחוגה לפי הזווית המחושבת
         for (int i = 0; i < 3; i++) {
             xPoints[i] = (int) (BASE_X_POINTS[i] * Math.cos(angle) - BASE_Y_POINTS[i] * Math.sin(angle)) + ovalCenterX;
             yPoints[i] = (int) (BASE_X_POINTS[i] * Math.sin(angle) + BASE_Y_POINTS[i] * Math.cos(angle)) + ovalCenterY;
         }
 
+        // ציור המחוגה
         g2d.setColor(Color.RED);
         g2d.fillPolygon(xPoints, yPoints, 3);
 
+        // ציור מרכז המחוגה
         g2d.setColor(Color.BLACK);
         g2d.fillOval(ovalCenterX - 15, ovalCenterY - 15, 30, 30);
 
+        // ציור התמונה של המחוגה
         g2d.drawImage(GAUGE.getImage(), x, y, GAUGE.getIconWidth(), GAUGE.getIconHeight(), null);
     }
 
+    /**
+     * מחזיר את התמונה של המחוגה.
+     *
+     * @return - אובייקט ImageIcon של המחוגה
+     */
     public static ImageIcon getImage() {
         return GAUGE;
     }
@@ -104,9 +114,14 @@ public class Speedometer {
         return speedLimit;
     }
 
-    public static void setMinSpeed(int minSpeed) {
-        Speedometer.minSpeed = minSpeed;
-        Speedometer.speed = minSpeed;
+    /**
+     * קובע את המהירות המינימלית של המחוגה
+     *
+     * @param minSpeed - המהירות המינימלית החדשה
+     */
+    public void setMinSpeed(int minSpeed) {
+        this.minSpeed = minSpeed;
+        this.speed = minSpeed;
     }
 
     /**
@@ -114,7 +129,7 @@ public class Speedometer {
      *
      * @return - מהירות מינימלית נוכחית
      */
-    public static int getMinSpeed() {
+    public int getMinSpeed() {
         return minSpeed;
     }
 
@@ -122,11 +137,12 @@ public class Speedometer {
      * מזיז את המחוגה בהתאם למהירות הנסיעה הנוכחית
      */
     public void move() {
-
+        // בדיקה אם מהירות הנסיעה שווה למהירות הנוכחית
         if (speed == travelSpeed) {
             travelSpeed = getRandomSpeed();
         }
 
+        // התאמת המהירות הנוכחית למהירות הנסיעה
         if (speed < travelSpeed) {
             setSpeed(getSpeed() + 1);
         } else if (speed > travelSpeed) {
@@ -143,6 +159,6 @@ public class Speedometer {
         if (speedLimit == 0) {
             return minSpeed;
         }
-        return (int) (Math.random() * (speedLimit) + minSpeed);
+        return (int) (Math.random() * (speedLimit - minSpeed) + minSpeed);
     }
 }

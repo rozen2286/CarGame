@@ -27,7 +27,7 @@ public class QuadrilateralPainter {
     private final Color color2;
     private int isEven;
 
-    private static int pixelsToRise;
+    private static int speed;
 
     /**
      * יוצר אובייקט חדש של RoadManagement.QuadrilateralPainter עם נקודות, מספר צעדים ושני צבעים.
@@ -55,7 +55,7 @@ public class QuadrilateralPainter {
         ///////////////////
         this.isEven = 1;
         ///////////////////
-        setPixelsToRise(5);
+        setSpeed(6);
 
         calculateShoulderPoints(this.myPoints[0], this.myPoints[2], leftShoulderX, leftShoulderY);
         calculateShoulderPoints(this.myPoints[1], this.myPoints[3], rightShoulderX, rightShoulderY);
@@ -93,14 +93,14 @@ public class QuadrilateralPainter {
     /**
      * מגדירה את מספר הפיקסלים לעליה.
      *
-     * @param pixelsToRise מספר הפיקסלים לעליה
+     * @param speed מספר הפיקסלים לעליה
      */
-    public static void setPixelsToRise(int pixelsToRise) {
-        QuadrilateralPainter.pixelsToRise = pixelsToRise;
+    public static void setSpeed(int speed) {
+        QuadrilateralPainter.speed = speed;
     }
 
-    public static int getPixelsToRise() {
-        return pixelsToRise;
+    public static int getSpeed() {
+        return speed;
     }
 
     /**
@@ -153,17 +153,24 @@ public class QuadrilateralPainter {
     private void drawShoulders(Graphics g) {
         int i;
         for (i = 0; i < leftShoulderX.size() - 1; i++) {
+            int rightIndex = rightShoulderX.size() - 2 - i;
+            int rightIndexY = rightShoulderY.size() - 1 - i;
+
+            if (rightIndex < 0 || rightIndexY < 0 || rightIndex >= rightShoulderX.size() || rightIndexY >= rightShoulderY.size()) {
+                continue;
+            }
+
             int[] xRect = {
                     (int) Math.round(leftShoulderX.get(i)),
                     (int) Math.round(leftShoulderX.get(i + 1)),
-                    (int) Math.round(rightShoulderX.get(rightShoulderX.size() - 2 - i)),
-                    (int) Math.round(rightShoulderX.get(rightShoulderY.size() - 1 - i))
+                    (int) Math.round(rightShoulderX.get(rightIndex)),
+                    (int) Math.round(rightShoulderX.get(rightIndexY))
             };
             int[] yRect = {
                     (int) Math.round(leftShoulderY.get(i)),
                     (int) Math.round(leftShoulderY.get(i + 1)),
-                    (int) Math.round(rightShoulderY.get(rightShoulderX.size() - 2 - i)),
-                    (int) Math.round(rightShoulderY.get(rightShoulderY.size() - 1 - i))
+                    (int) Math.round(rightShoulderY.get(rightIndex)),
+                    (int) Math.round(rightShoulderY.get(rightIndexY))
             };
 
             setColor(g, i);
@@ -175,6 +182,7 @@ public class QuadrilateralPainter {
                 new int[]{rightShoulderY.get(0).intValue(), myPoints[1].getY(), myPoints[2].getY(), leftShoulderY.get(leftShoulderY.size() - 1).intValue()},
                 4);
     }
+
 
     /**
      * מגדיר את הצבע למקטע הנוכחי.
@@ -215,7 +223,7 @@ public class QuadrilateralPainter {
      */
     private void moveShoulder(ArrayList<Double> shoulderX, ArrayList<Double> shoulderY, MyPoint myPoint1, MyPoint myPoint2) {
         for (int i = 0; i < shoulderY.size(); i++) {
-            shoulderY.set(i, shoulderY.get(i) + this.pixelsToRise);
+            shoulderY.set(i, shoulderY.get(i) + speed);
         }
 
         double slope = CalculusMethods.calculateSlope(myPoint1.getX(), myPoint1.getY(), myPoint2.getX(), myPoint2.getY());

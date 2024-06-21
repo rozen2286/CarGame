@@ -32,6 +32,6 @@ public class SettingsPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        GraphicsUtils.paintBackground(g, WIDTH, HEIGHT, 30, 30, new Color(0,0,0));
+        GraphicsUtils.paintBackground(g, WIDTH, HEIGHT, 30, 30, new Color(255,255,255));
     }
 }

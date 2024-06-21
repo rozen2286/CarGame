@@ -8,7 +8,7 @@ import javax.swing.*;
 public class Window extends JFrame {
 
     private static Window window;
-    private JLayeredPane layeredPane;
+    private static final JLayeredPane layeredPane = new JLayeredPane();
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 800;
 
@@ -23,12 +23,10 @@ public class Window extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
 
-        layeredPane = new JLayeredPane();
         layeredPane.setBounds(0, 0, WIDTH, HEIGHT);
         this.add(layeredPane);
 
-        LoginScreen loginScreen = new LoginScreen();
-        layeredPane.add(loginScreen, JLayeredPane.DEFAULT_LAYER);
+        addLoginScreen();
 
         setVisible(true);
     }
@@ -51,8 +49,13 @@ public class Window extends JFrame {
      * @param panelToRemove הפאנל להסרה
      */
     public static void removeTopPanel(JPanel panelToRemove) {
-        window.layeredPane.remove(panelToRemove);
+        Window.layeredPane.remove(panelToRemove);
         window.revalidate();
         window.repaint();
+    }
+
+    public static void addLoginScreen() {
+        LoginScreen loginScreen = new LoginScreen();
+        layeredPane.add(loginScreen, JLayeredPane.DEFAULT_LAYER);
     }
 }

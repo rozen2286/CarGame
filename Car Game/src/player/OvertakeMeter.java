@@ -8,7 +8,7 @@ public class OvertakeMeter {
     private final int x;
     private final int y;
     private static final ImageIcon GAUGE = new ImageIcon("Car Game/resources/Photos/OvertakeMeterImage.png");
-    private static int level;
+    private int level;
 
     private static final int MAX_SPEED = 10;
     private static final int ANGLE_OFFSET = 80;
@@ -74,10 +74,9 @@ public class OvertakeMeter {
      * מגדירה את המהירות המינימלית.
      *
      * @param level - מהירות מינימלית
-     * לא מחזירה ערך.
      */
-    public static void setLevel(int level) {
-        OvertakeMeter.level = level;
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     /**
@@ -85,7 +84,7 @@ public class OvertakeMeter {
      *
      * @return - המהירות המינימלית הנוכחית
      */
-    public static int getLevel() {
+    public int getLevel() {
         return level;
     }
 }
