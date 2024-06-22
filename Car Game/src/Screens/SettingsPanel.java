@@ -29,13 +29,30 @@ public class SettingsPanel extends JPanel {
         this.setOpaque(false);
         setLayout(null);
 
-        instructionsText = createInstructionsText();
-        instructionsText.setBounds(20, 20, WIDTH - 40, HEIGHT - (LoginScreen.HEIGHT_BUTTON * 2 ));
-        add(instructionsText);
+        JScrollPane scrollPane = createInstructionsScrollPane();
+        scrollPane.setBounds(20, 20, WIDTH - 40, HEIGHT - (LoginScreen.HEIGHT_BUTTON * 2 ));
+        add(scrollPane);
 
-        cancelButton = RoundedCornerButton.myButton(WIDTH / 2 - LoginScreen.WIDTH_BUTTON / 2, HEIGHT - (LoginScreen.HEIGHT_BUTTON * 2 ), LoginScreen.WIDTH_BUTTON, LoginScreen.HEIGHT_BUTTON, "OK", LoginScreen.COLOR_BUTTON, this);
+        cancelButton = RoundedCornerButton.myButton(WIDTH / 2 - LoginScreen.WIDTH_BUTTON / 2, HEIGHT - (LoginScreen.HEIGHT_BUTTON * 2 ) + 25, LoginScreen.WIDTH_BUTTON, LoginScreen.HEIGHT_BUTTON, "OK", LoginScreen.COLOR_BUTTON, this);
         cancelButton.setFont(LoginScreen.CUSTOM_FONT_BUTTON);
         add(cancelButton);
+    }
+
+    /**
+     * יוצר ומחזיר JScrollPane עם אזור טקסט להוראות המשחק.
+     *
+     * @return אובייקט JScrollPane עם טקסט ההוראות
+     */
+    private JScrollPane createInstructionsScrollPane() {
+        instructionsText = createInstructionsText();
+        JScrollPane scrollPane = new JScrollPane(instructionsText);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setBorder(null);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(0));
+        return scrollPane;
     }
 
     /**
@@ -51,7 +68,11 @@ public class SettingsPanel extends JPanel {
         textArea.setWrapStyleWord(true);
         textArea.setFont(LoginScreen.CUSTOM_FONT_BUTTON.deriveFont(25f));
         textArea.setForeground(Color.BLACK);
-        textArea.setText("### Game Objective:\nStay alive on the road for as long as possible.\n\n### How to Play:\nUse the left and right arrow keys on your keyboard to switch lanes. Each press moves you to the next lane. To pause the game, hit the Esc button.\n\n### Good Luck!\nMay the odds be ever in your favor! Have a blast and stay safe out there! 🚗💨");
+        textArea.setText("### Game Objective:\nStay alive on the road for as long as possible.\n\n### How to Play:\nUse the left and right arrow keys on your keyboard to switch lanes. Each press moves you to the next lane. To pause the game, hit the Esc button.\n\n### Good Luck!\nMay the odds be ever in your favor! Have a blast and stay safe out there! 🚗💨\n\n ### Game Credits:\n" +
+                "This game was created with passion and dedication by Yosef Rozenman and Idan Lanerman.\n" +
+                "\n" +
+                "### Special Note:\n" +
+                "We hope you enjoy playing as much as we enjoyed creating it. Dive in, have fun, and challenge your skills!");
         return textArea;
     }
 
