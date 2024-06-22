@@ -214,6 +214,6 @@ public class LoginScreen extends JPanel {
     }
 
     public static void playMusic() {
-        MyMusic.playMusic(idMusic, "Car Game/resources/music/Epic Rock Background Music.wav", 1.0f, false);
+        MyMusic.playMusic(idMusic, "Car Game/resources/music/Epic Rock Background Music.wav", 1.0f, true);
     }
 }
