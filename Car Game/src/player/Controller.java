@@ -91,7 +91,7 @@ public class Controller implements KeyListener {
             this.scene.remove(actionChoicePanel);
             Window.removeTopPanel(scene);
 
-            LoginScreen.playMusic();
+            Window.addLoginScreen();
         });
 
         this.scene.repaint();

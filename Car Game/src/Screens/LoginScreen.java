@@ -140,10 +140,10 @@ public class LoginScreen extends JPanel {
 
     private static RoundedCornerButton startButton;
     private static RoundedCornerButton settingButton;
-    private static final int WIDTH_START_BUTTON = 200;
-    private static final int HEIGHT_START_BUTTON = 50;
-    private static final String START_TEXT = "START";
-    private static final String SETTINGS_TEXT = "SETTINGS";
+    public static final int WIDTH_BUTTON = 200;
+    public static final int HEIGHT_BUTTON = 50;
+    private final String START_TEXT;
+    private final String SETTINGS_TEXT;
     public static final Font CUSTOM_FONT_BUTTON = MyFont.getCustomFont(MyFont.eFont.PoetsenOne,25f);
     public static final Color COLOR_BUTTON = Color.RED;
 
@@ -158,10 +158,13 @@ public class LoginScreen extends JPanel {
 
         this.setBounds(0,0, WIDTH, HEIGHT);
 
+        START_TEXT = "START";
+        SETTINGS_TEXT = "INSTRUCTIONS";
+
         this.BACKGROUND_IMAGE = new ImageIcon("Car Game/resources/Photos/BeckgroundImageLoginScreen.jpg");
 
-        startButton = RoundedCornerButton.myButton(WIDTH / 2 - WIDTH_START_BUTTON / 2, HEIGHT / 4 * 3,
-                WIDTH_START_BUTTON, HEIGHT_START_BUTTON, START_TEXT, COLOR_BUTTON, this);
+        startButton = RoundedCornerButton.myButton(WIDTH / 2 - WIDTH_BUTTON / 2, HEIGHT / 4 * 3,
+                WIDTH_BUTTON, HEIGHT_BUTTON, START_TEXT, COLOR_BUTTON, this);
         startButton.setFont(CUSTOM_FONT_BUTTON);
 
         settingButton = RoundedCornerButton.myButton(startButton.getX(), startButton.getY() + startButton.getHeight() + 10,
@@ -182,7 +185,7 @@ public class LoginScreen extends JPanel {
         });
 
         settingButton.addActionListener((event) -> {
-            SettingsPanel settingsPanel = new SettingsPanel(Window.WIDTH / 3, Window.HEIGHT / 10);
+            SettingsPanel settingsPanel = new SettingsPanel(Window.WIDTH / 2 - SettingsPanel.WIDTH / 2, Window.HEIGHT  / 2 - SettingsPanel.HEIGHT / 2);
             Window.addPanelOnTop(settingsPanel);
             settingsPanel.requestFocus();
 
