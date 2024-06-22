@@ -8,6 +8,24 @@
 
 
 
+### Game Objective:
+Stay alive on the road for as long as possible.
+
+### How to Play:
+Use the left and right arrow keys on your keyboard to switch lanes. Each press moves you to the next lane. To pause the game, hit the Esc button.
+
+### Good Luck!
+May the odds be ever in your favor! Have a blast and stay safe out there! 🚗💨
+
+### Game Credits:
+This game was created with passion and dedication by Yosef Rozenman and Idan Lenerman.
+
+### Special Note:
+We hope you enjoy playing as much as we enjoyed creating it. Dive in, have fun, and challenge your skills!
+
+
+https://github.com/CarGameProject/CarGame.git
+
 
 
 
