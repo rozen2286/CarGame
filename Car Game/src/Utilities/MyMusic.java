@@ -80,4 +80,18 @@ public class MyMusic {
         }
         clipMap.clear();
     }
+
+    /**
+     * מתודה זו מחזירה את קובץ המוזיקה לפי ה-id שלו מהמפה.
+     *
+     * @param id זיהוי ייחודי לסאונד.
+     * @return הקובץ מסוג Clip הקשור ל-id הנתון, או null אם לא נמצא.
+     */
+    public static Clip getMusicById(String id) {
+        Clip clip = clipMap.get(id);
+        if (clip == null) {
+            System.out.println("Sound with id " + id + " not found");
+        }
+        return clip;
+    }
 }
