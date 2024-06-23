@@ -132,14 +132,14 @@ import java.awt.*;
  */
 public class LoginScreen extends JPanel {
 
-    public static final int WIDTH = Window.WIDTH;
-    public static final int HEIGHT = Window.HEIGHT;
+    public final int WIDTH;
+    public final int HEIGHT;
 
     private final ImageIcon BACKGROUND_IMAGE;
-    public static final float ALPHA = 1.0f;
+    public final float ALPHA;
 
-    private static RoundedCornerButton startButton;
-    private static RoundedCornerButton settingButton;
+    private final RoundedCornerButton startButton;
+    private final RoundedCornerButton settingButton;
     public static final int WIDTH_BUTTON = 200;
     public static final int HEIGHT_BUTTON = 50;
     private final String START_TEXT;
@@ -153,6 +153,11 @@ public class LoginScreen extends JPanel {
      * יוצר אובייקט חדש של Screens.LoginScreen.
      **/
     public LoginScreen() {
+
+        this.WIDTH = Window.WIDTH;
+        HEIGHT = Window.HEIGHT;
+
+        ALPHA = 1.0f;
 
         playMusic();
 
