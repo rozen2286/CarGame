@@ -1,10 +1,10 @@
-המשחק "Crazy Car" פותח על ידי יוסף רוזנמן ועידן לנרמן ומהווה משחק מכוניות מרתק שבו השחקן נדרש להפגין מיומנויות נהיגה ותגובה מהירות. המטרה המרכזית של המשחק היא לעקוף מכוניות אחרות הנמצאות על אותו כביש בעזרת שימוש חכם בנתיבים השונים בכביש כדי להימנע מהתנגשויות.
+The game "Crazy Car" was developed by Yosef Rozenman and Idan Lanerman and is a rad car game where you gotta show off your driving skills and quick reactions. The main goal is to overtake other cars on the road by smartly switching lanes to avoid crashes.
 
-המשחק נכתב בשפת Java ומשתמש בספרייה Java Swing ליצירת ממשק משתמש גרפי אינטראקטיבי. Java Swing מאפשרת למפתחים ליצור ממשקים גמישים ועשירים בגרפיקה, מה שמקנה למשחק מראה מקצועי וחוויית משתמש מהנה.
+The game is coded in Java and uses the Java Swing library to create a slick, interactive GUI. Java Swing lets the devs build flexible and rich graphical interfaces, giving the game a professional look and a fun user experience.
 
-במהלך הפיתוח, דגש הושם על יצירת משחקיות זורמת ומאתגרת, עם תגובות מהירות וגרפיקה חלקה. המשחק כולל גם אלמנטים נוספים כמו ניקוד, דרגות קושי שונות ואפקטים קוליים להעצמת החוויה הכוללת של השחקן.
+During development, the focus was on creating smooth and challenging gameplay, with quick responses and smooth graphics. The game also features extras like scoring, different difficulty levels, and sound effects to amp up the overall player experience.
 
-"יוסף רוזנמן ועידן לנרמן השקיעו מחשבה רבה בכל שלב בתהליך הפיתוח על מנת להבטיח שמשחק "Crazy Car" יהיה מרתק, מאתגר ומהנה עבור כל השחקנים.
+Yosef Rozenman and Idan Lanerman put a lot of thought into every stage of development to make sure "Crazy Car" is engaging, challenging, and fun for all players.
 
 
 
