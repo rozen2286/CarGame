@@ -23,6 +23,9 @@ public class Window extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
 
+        this.setTitle("crazy cars");
+        this.setIconImage(new ImageIcon("Car Game/resources/Photos/BeckgroundImageLoginScreen.jpg").getImage());
+
         layeredPane.setBounds(0, 0, WIDTH, HEIGHT);
         this.add(layeredPane);
 

@@ -50,6 +50,8 @@ public class EnemyCarFactory {
         this.carsArray = new LinkedList<>();
 
         randomCars = new Random();
+
+        resetCounter();
     }
 
     /**
@@ -104,7 +106,7 @@ public class EnemyCarFactory {
      * @return int המונה של המכוניות שהוסרו.
      */
     public static int getCounter() {
-        return counter;
+        return EnemyCarFactory.counter;
     }
 
     public static void resetCounter() {

@@ -112,8 +112,6 @@ public class Scene extends JPanel {
                     stopThreads();
 
                     stopMusic();
-
-                    EnemyCarFactory.resetCounter();
                 }
 
                 repaint();

@@ -155,7 +155,7 @@ public class LoginScreen extends JPanel {
     public LoginScreen() {
 
         this.WIDTH = Window.WIDTH;
-        HEIGHT = Window.HEIGHT;
+        this.HEIGHT = Window.HEIGHT;
 
         ALPHA = 1.0f;
 
