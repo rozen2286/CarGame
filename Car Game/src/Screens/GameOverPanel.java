@@ -117,13 +117,16 @@ public class GameOverPanel extends JPanel {
      * מצייר את טקסט "יוסף4"
      */
     private void paintStaticText(Graphics g) {
-        g.setFont(MyFont.getCustomFont(MyFont.eFont.FasterOne, 50));
-        g.setColor(Color.RED);
+
+        String s = "You overtook " + EnemyCarFactory.getCounter() + " cars!";
+
+        g.setFont(MyFont.getCustomFont(MyFont.eFont.PoetsenOne, 50));
+        g.setColor(Color.BLACK);
         FontMetrics fm = g.getFontMetrics();
-        int textWidth = fm.stringWidth("You overtook " + EnemyCarFactory.getCounter() + " cars!");
+        int textWidth = fm.stringWidth(s);
         int x = (WIDTH - textWidth) / 2;
         int y = HEIGHT - 100; // מיקום הטקסט בתחתית הפאנל
-        g.drawString("You overtook " + EnemyCarFactory.getCounter() + " cars!", x, y);
+        g.drawString(s, x, y);
     }
 
     /**
