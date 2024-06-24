@@ -23,8 +23,7 @@ This game was created with passion and dedication by Yosef Rozenman and Idan Len
 ### Special Note:
 We hope you enjoy playing as much as we enjoyed creating it. Dive in, have fun, and challenge your skills!
 
-
-[https://github.com/CarGameProject/CarGame.git](https://github.com/rozen2286/CarGame.git)
+https://github.com/rozen2286/CarGame.git
 
 
 
